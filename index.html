@@ -46,8 +46,8 @@
     <div class="max-w-3xl mx-auto">
       <h2 class="text-lg text-gray-300 mb-4 font-light-roboto">💬 Wisdom of the day</h2>
       <blockquote id="quote-text" class="font-thin-roboto text-orange-500 text-3xl sm:text-4xl leading-snug min-h-[5rem]"></blockquote>
-      <div id="quote-meta" class="italic font-thin-roboto text-gray-500 text-3xl sm:text-4xl leading-snug min-h-[5rem]"></div>
-      <div id="quote-show" class="font-light-roboto text-gray-500 text-2xl sm:text-4xl leading-snug min-h-[5rem]"></div>
+      <div id="quote-meta" class="italic font-thin-roboto text-gray-500 text-3xl sm:text-4xl leading-snug min-h-[3rem]"></div>
+      <div id="quote-show" class="text-gray-500 text-xl sm:text-2xl font-light-roboto"></div>
       <button id="new-quote" class="mt-6 px-5 py-3 bg-blue-600 text-base rounded hover:bg-blue-700 transition">
         🧠 Give Me Wisdom
       </button>
@@ -122,7 +122,7 @@
         if (i >= quote.quote.length) {
           clearInterval(interval);
           speakerEl.textContent = `– ${quote.character}`;
-          showEl.textContent = `${quote.show}`;
+          showEl.innerHTML = `(<span class="text-xl sm:text-2xl font-light-roboto">${quote.show}</span>)`;
         }
       }, 25);
     }
