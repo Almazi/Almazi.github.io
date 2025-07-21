@@ -8,7 +8,7 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Fonts -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Playfair+Display:wght@600&family=Roboto:wght@100;300&display=swap" rel="stylesheet">
 
   <style>
@@ -44,9 +44,10 @@
     <p id="typewriter" class="text-xl text-green-400 h-8 mb-8"></p><span class="cursor"></span>
 
     <div class="max-w-3xl mx-auto">
-      <h2 class="text-lg text-gray-300 mb-4 font-light-roboto">💬 Quote from <em>The Office</em></h2>
-      <blockquote id="office-quote" class="font-thin-roboto text-orange-300 text-3xl sm:text-4xl leading-snug min-h-[5rem]"></blockquote>
-      <div id="speaker" class="text-base text-gray-400 mt-2 font-light-roboto"></div>
+      <h2 class="text-lg text-gray-300 mb-4 font-light-roboto">💬 Quote Generator</h2>
+      <blockquote id="quote-text" class="font-thin-roboto text-orange-300 text-3xl sm:text-4xl leading-snug min-h-[5rem]"></blockquote>
+      <div id="quote-meta" class="italic font-thin-roboto text-gray-400 mt-2"></div>
+      <div id="quote-show" class="font-light-roboto text-gray-500 text-sm mt-1"></div>
       <button id="new-quote" class="mt-6 px-5 py-3 bg-blue-600 text-base rounded hover:bg-blue-700 transition">
         🧠 Give Me Wisdom
       </button>
@@ -63,6 +64,7 @@
   </footer>
 
   <script>
+    // Typewriter animation
     const lines = [
       "Building something amazing...",
       "Initializing neural links...",
@@ -85,6 +87,7 @@
     }
     typeLine();
 
+    // Year footer
     const startYear = 2024;
     const currentYear = new Date().getFullYear();
     document.getElementById("year-start").textContent = startYear;
@@ -93,32 +96,33 @@
       document.getElementById("year-now").textContent = currentYear;
     }
 
+    // Quote logic
     let quotes = [];
-    const quoteEl = document.getElementById('office-quote');
-    const speakerEl = document.getElementById('speaker');
+    const quoteEl = document.getElementById('quote-text');
+    const speakerEl = document.getElementById('quote-meta');
+    const showEl = document.getElementById('quote-show');
     const btn = document.getElementById('new-quote');
 
-    fetch('quotes.json')
+    fetch('popular_quotes.json')
       .then(res => res.json())
       .then(data => {
         quotes = data;
         showQuote();
       });
 
-    function showQuote(forced) {
-      const full = forced || quotes[Math.floor(Math.random() * quotes.length)];
-      const match = full.split('–');
-      const quote = match[0].trim();
-      const speaker = match[1] ? '– ' + match[1].trim() : '';
-
+    function showQuote() {
+      const quote = quotes[Math.floor(Math.random() * quotes.length)];
       quoteEl.textContent = '';
       speakerEl.textContent = '';
+      showEl.textContent = '';
+
       let i = 0;
       const interval = setInterval(() => {
-        quoteEl.textContent += quote.charAt(i++);
-        if (i >= quote.length) {
+        quoteEl.textContent += quote.quote.charAt(i++);
+        if (i >= quote.quote.length) {
           clearInterval(interval);
-          speakerEl.textContent = speaker;
+          speakerEl.textContent = `– ${quote.character}`;
+          showEl.textContent = `${quote.show}`;
         }
       }, 25);
     }
