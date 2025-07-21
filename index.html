@@ -103,7 +103,7 @@
     const showEl = document.getElementById('quote-show');
     const btn = document.getElementById('new-quote');
 
-    fetch('popular_quotes.json')
+    fetch('wisdom_quotes.json')
       .then(res => res.json())
       .then(data => {
         quotes = data;
