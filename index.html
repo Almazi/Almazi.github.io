@@ -95,7 +95,7 @@
     const quoteEl = document.getElementById('office-quote');
     const btn = document.getElementById('new-quote');
 
-    fetch('combined_quotes.json')
+    fetch('quotes.json')
       .then(res => res.json())
       .then(data => {
         quotes = data;
