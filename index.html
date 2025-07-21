@@ -8,13 +8,19 @@
   <!-- ✅ Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Optional font -->
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Playfair+Display:wght@600&family=DM+Serif+Display&display=swap" rel="stylesheet">
 
   <style>
     body {
       font-family: 'Fira Code', monospace;
       margin: 0;
+    }
+    .font-display {
+      font-family: 'Playfair Display', serif;
+    }
+    .font-serif {
+      font-family: 'DM Serif Display', serif;
     }
     .cursor {
       display: inline-block;
@@ -34,9 +40,11 @@
     <p id="typewriter" class="text-xl text-green-400 h-8 mb-8"></p><span class="cursor"></span>
 
     <div class="max-w-2xl mx-auto">
-      <h2 class="text-lg text-gray-300 mb-2">💬 Quote from <em>The Office</em></h2>
-      <blockquote id="office-quote" class="italic text-yellow-300 min-h-[4rem]"></blockquote>
-      <button id="new-quote" class="mt-4 px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 transition">🎲 Generate Quote</button>
+      <h2 class="text-lg text-gray-300 mb-2 font-display">💬 Quote from <em>The Office</em></h2>
+      <blockquote id="office-quote" class="italic text-yellow-200 text-2xl sm:text-3xl font-serif min-h-[6rem]"></blockquote>
+      <button id="new-quote" class="mt-4 px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 transition">
+        🧠 Give Me Wisdom
+      </button>
     </div>
 
     <p class="mt-10 text-gray-400">
@@ -50,7 +58,7 @@
   </footer>
 
   <script>
-    // Typewriter animation for heading
+    // Typewriter for headline
     const lines = [
       "Building something amazing...",
       "Initializing neural links...",
@@ -73,7 +81,7 @@
     }
     typeLine();
 
-    // Year logic
+    // Year dynamic logic
     const startYear = 2024;
     const currentYear = new Date().getFullYear();
     document.getElementById("year-start").textContent = startYear;
@@ -82,7 +90,7 @@
       document.getElementById("year-now").textContent = currentYear;
     }
 
-    // Quote animation logic
+    // Quote animation and fetch
     let quotes = [];
     const quoteEl = document.getElementById('office-quote');
     const btn = document.getElementById('new-quote');
@@ -91,7 +99,7 @@
       .then(res => res.json())
       .then(data => {
         quotes = data;
-        showQuote(); // display initial
+        showQuote(); // Show first
       });
 
     function showQuote(text) {
@@ -101,7 +109,7 @@
       const interval = setInterval(() => {
         quoteEl.textContent += quote.charAt(i++);
         if (i >= quote.length) clearInterval(interval);
-      }, 30); // typewriter speed
+      }, 30);
     }
 
     btn.onclick = () => showQuote();
