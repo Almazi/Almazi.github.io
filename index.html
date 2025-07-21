@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Coming Soon</title>
 
-  <!-- ✅ Tailwind CDN (CORB-safe) -->
+  <!-- ✅ Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Optional: Developer font -->
+  <!-- Optional font -->
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
 
   <style>
@@ -27,46 +27,84 @@
     }
   </style>
 </head>
-<body class="bg-gray-900 text-white">
-  <div class="flex items-center justify-center min-h-screen px-4">
-    <div class="text-center">
-      <h1 class="text-3xl sm:text-5xl font-bold mb-4">🚧 Coming Soon</h1>
-      <p id="typewriter" class="text-xl text-green-400 h-8"></p><span class="cursor"></span>
-      <p class="mt-8 text-gray-400">Follow me on 
-        <a href="https://github.com/Almazi" target="_blank" class="text-blue-400 hover:underline">GitHub</a>
-      </p>
+<body class="bg-gray-900 text-white flex flex-col min-h-screen justify-between">
+
+  <main class="flex-grow flex flex-col items-center justify-center px-4 text-center">
+    <h1 class="text-3xl sm:text-5xl font-bold mb-4">🚧 Coming Soon</h1>
+    <p id="typewriter" class="text-xl text-green-400 h-8 mb-8"></p><span class="cursor"></span>
+
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-lg text-gray-300 mb-2">💬 Quote from <em>The Office</em></h2>
+      <blockquote id="office-quote" class="italic text-yellow-300 min-h-[4rem]"></blockquote>
+      <button id="new-quote" class="mt-4 px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 transition">🎲 Generate Quote</button>
     </div>
-  </div>
+
+    <p class="mt-10 text-gray-400">
+      Follow me on 
+      <a href="https://github.com/Almazi" class="text-blue-400 hover:underline" target="_blank">GitHub</a>
+    </p>
+  </main>
+
   <footer class="text-center text-gray-500 text-sm pb-4">
-    © <span id="year-start">2024</span><span id="year-dash"></span><span id="year-now"></span> Ahmad Almazi. All rights reserved.
+    © <span id="year-start">2024</span><span id="year-dash"></span><span id="year-now"></span> Almazi. All rights reserved.
   </footer>
 
   <script>
-    const text = [
+    // Typewriter animation for heading
+    const lines = [
       "Building something amazing...",
       "Initializing neural links...",
       "Loading mind-blowing visuals...",
       "Deploying soon to GitHub Pages."
     ];
-    let i = 0, j = 0;
-    let current = '';
-    let speed = 70;
-
-    function type() {
-      if (j < text[i].length) {
-        current += text[i][j++];
+    let i = 0, j = 0, current = '';
+    function typeLine() {
+      if (j < lines[i].length) {
+        current += lines[i][j++];
         document.getElementById('typewriter').textContent = current;
-        setTimeout(type, speed);
+        setTimeout(typeLine, 70);
       } else {
         setTimeout(() => {
-          j = 0;
-          current = '';
-          i = (i + 1) % text.length;
-          type();
-        }, 1500);
+          j = 0; current = '';
+          i = (i + 1) % lines.length;
+          typeLine();
+        }, 1600);
       }
     }
-    type();
+    typeLine();
+
+    // Year logic
+    const startYear = 2024;
+    const currentYear = new Date().getFullYear();
+    document.getElementById("year-start").textContent = startYear;
+    if (currentYear > startYear) {
+      document.getElementById("year-dash").textContent = "–";
+      document.getElementById("year-now").textContent = currentYear;
+    }
+
+    // Quote animation logic
+    let quotes = [];
+    const quoteEl = document.getElementById('office-quote');
+    const btn = document.getElementById('new-quote');
+
+    fetch('quotes.json')
+      .then(res => res.json())
+      .then(data => {
+        quotes = data;
+        showQuote(); // display initial
+      });
+
+    function showQuote(text) {
+      const quote = text || quotes[Math.floor(Math.random() * quotes.length)];
+      quoteEl.textContent = '';
+      let i = 0;
+      const interval = setInterval(() => {
+        quoteEl.textContent += quote.charAt(i++);
+        if (i >= quote.length) clearInterval(interval);
+      }, 30); // typewriter speed
+    }
+
+    btn.onclick = () => showQuote();
   </script>
 </body>
 </html>
